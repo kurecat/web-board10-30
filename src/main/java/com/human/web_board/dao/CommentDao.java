@@ -10,6 +10,7 @@ public class CommentDao {
     private final JdbcTemplate jdbc;
 
     // 댓글 등록
+    public
 
     // 댓글 가져오기 (게시글 ID를 통해서 가져 와야 함)
 
