@@ -20,7 +20,7 @@ public class PostDao {
     // 게시글 등록
     public Long save(PostCreateReq p) {
         @Language("SQL")
-        String sql = "INSERT INTO post(id, member_id, title, content) VALUES (swr_post.NEXTVAL, ?, ?, ?)";
+        String sql = "INSERT INTO post(id, member_id, title, content) VALUES (seq_post.NEXTVAL, ?, ?, ?)";
         jdbc.update(sql, p.getMemberId(), p.getTitle(), p.getContent());
         return jdbc.queryForObject("SELECT seq_post.CURRVAL FROM dual", Long.class);
     }
