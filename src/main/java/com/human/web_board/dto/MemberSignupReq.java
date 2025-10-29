@@ -2,8 +2,6 @@ package com.human.web_board.dto;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 // 회원 가입 요청
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class MemberSignupReq {

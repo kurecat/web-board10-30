@@ -25,7 +25,7 @@ public class MemberDao {
         @Language("SQL")
         String sql = "INSERT INTO member(id, email, pwd, name) VALUES (seq_member.NEXTVAL, ?, ?, ?)";
         jdbc.update(sql, m.getEmail(), m.getPwd(), m.getName());
-        return jdbc.queryForObject("SELECT seq_member.CURRVAL FORM dual", Long.class);  // Long 타입의 id를 반환
+        return jdbc.queryForObject("SELECT seq_member.CURRVAL FROM dual", Long.class);  // Long 타입의 id를 반환
     }
 
     // 이메일로 회원 조회
