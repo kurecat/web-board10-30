@@ -31,4 +31,9 @@ public class PostRestController {
     public ResponseEntity<PostRes> detail(@PathVariable Long id) {
         return ResponseEntity.ok(postService.get(id));
     }
+
+    @PutMapping("/{id}")  // 게시글 수
+    public ResponseEntity<Boolean> update(@PathVariable Long id, @RequestBody PostCreateReq req) {
+        return ResponseEntity.ok(postService.edit(req, id));
+    }
 }
