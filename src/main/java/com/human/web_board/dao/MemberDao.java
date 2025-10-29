@@ -3,6 +3,7 @@ package com.human.web_board.dao;
 import com.human.web_board.model.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.intellij.lang.annotations.Language;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,7 @@ public class MemberDao {
 
     // 회원 가입
     public Long save(Member member) {
+        @Language("SQL")
         String sql = "INSERT INTO member(id, email, pwd, name) VALUES (seq_member.NEXTVAL, ?, ?, ?)";
         jdbc.update(sql, member.getEmail(), member.getPwd(), member.getName());
         return jdbc.queryForObject("SELECT seq_member.CURRVAL FORM dual", Long.class);  // Long 타입의 id를 반환
@@ -27,6 +29,7 @@ public class MemberDao {
 
     // 이메일로 회원 조회
     public Member findByEmail(String email) {
+        @Language("SQL")
         String sql = "SELECT * FROM member WHERE email=?";
         List<Member> list = jdbc.query(sql, new MemberRowMapper(), email);
         return list.isEmpty() ? null : list.get(0); // 조회 시 결과가 없는 경우 null을 넣기 위해서
@@ -34,6 +37,7 @@ public class MemberDao {
 
     // ID로 회원 조회
     public Member findById(Long id) {
+        @Language("SQL")
         String sql = "SELECT * FROM member WHERE id=?";
         List<Member> list = jdbc.query(sql, new MemberRowMapper(), id);
         return list.isEmpty() ? null : list.get(0); // 조회 시 결과가 없는 경우 null을 넣기 위해서
@@ -41,6 +45,7 @@ public class MemberDao {
 
     // 전체 회원 조회
     public List<Member> findAll() {
+        @Language("SQL")
         String sql = "SELECT * from member ORDER BY id DESC";
         return jdbc.query(sql, new MemberRowMapper());
     }
