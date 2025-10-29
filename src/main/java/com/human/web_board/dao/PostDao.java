@@ -49,10 +49,10 @@ public class PostDao {
     }
 
     // 게시글 수정
-    public boolean update(PostCreateReq p, Long id) {
+    public boolean update(Long id, String title, String content) {
         @Language("SQL")
         String sql = "UPDATE post SET title=?, content=? WHERE id=?";
-        return jdbc.update(sql, p.getTitle(), p.getContent(), id) > 0;
+        return jdbc.update(sql, title, content, id) > 0;
     }
 
     // 게시글 삭제

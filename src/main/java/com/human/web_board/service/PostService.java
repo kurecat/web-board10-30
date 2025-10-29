@@ -13,7 +13,7 @@ public interface PostService {
     // 개별 게시글 보기 (게시글 ID)
     PostRes get(Long id);
     // 게시글 수정
-    boolean edit(Long id, String title, String content);
+    boolean edit(PostCreateReq req, Long id);
     // 게시글 삭제
     boolean delete(Long id);
 

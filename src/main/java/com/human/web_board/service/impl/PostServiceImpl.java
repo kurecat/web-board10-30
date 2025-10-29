@@ -27,21 +27,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostRes> list() {
-        return null;
+        return postDao.findAll();
     }
 
     @Override
     public PostRes get(Long id) {
-        return null;
+        return postDao.findById(id);
     }
 
     @Override
-    public boolean edit(Long id, String title, String content) {
-        return false;
+    public boolean edit(PostCreateReq req, Long id) {
+        return postDao.update(id, req.getTitle(), req.getContent());
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        return postDao.delete(id);
     }
 }
