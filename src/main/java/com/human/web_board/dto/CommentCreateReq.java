@@ -6,6 +6,6 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class CommentCreateReq {
     private Long postId;
-    private String memberEmail;
+    private Long memberId;
     private String content;
 }

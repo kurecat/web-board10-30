@@ -1,4 +1,4 @@
-package com.human.web_board.model;
+package com.human.web_board.dto;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor // 매개 변수가 없는 기본 생성자 생성
 @AllArgsConstructor // 매개 변수가 전부 있는 생성자 생성
 @ToString  // toString() 메서드를 오버라이딩 해줌
-public class Member {
+public class MemberRes {
     private Long id;        // 자동 증가 값, PK
     private String email;   // 이메일
     private String pwd;     // 비밀번호

@@ -21,7 +21,7 @@ public class CommentDao {
     public Long save(CommentCreateReq c) {
         @Language("SQL")
         String sql = "INSERT INTO comments (id, post_id, member_id, content) VALUES (seq_comments.NEXTVAL, ?, ?, ?)";
-        jdbc.update(sql, c.getPostId(), c.getMemberEmail(), c.getContent());
+        jdbc.update(sql, c.getPostId(), c.getMemberId(), c.getContent());
         return jdbc.queryForObject("SELECT seq_comment.CURRVAL FROM dual", Long.class);
     }
 
@@ -46,9 +46,10 @@ public class CommentDao {
 
     // 댓글 수정
     public boolean update(CommentCreateReq c, Long id) {
-        return true;
+        @Language("SQL")
+        String sql = " UPDATE comments SET content = ? WHERE id = ?";
+        return jdbc.update(sql, c.getContent(), id) > 0;
     }
-
 
     // mapper 메서드
     static class CommentResMapper implements RowMapper<CommentRes> {

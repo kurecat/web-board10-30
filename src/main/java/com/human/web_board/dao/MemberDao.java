@@ -1,6 +1,7 @@
 package com.human.web_board.dao;
 
-import com.human.web_board.model.Member;
+import com.human.web_board.dto.MemberSignupReq;
+import com.human.web_board.dto.MemberRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.intellij.lang.annotations.Language;
@@ -20,41 +21,41 @@ public class MemberDao {
     private final JdbcTemplate jdbc;  // JdbcTemplate을 의존성 주입 받음
 
     // 회원 가입
-    public Long save(Member member) {
+    public Long save(MemberSignupReq m) {
         @Language("SQL")
         String sql = "INSERT INTO member(id, email, pwd, name) VALUES (seq_member.NEXTVAL, ?, ?, ?)";
-        jdbc.update(sql, member.getEmail(), member.getPwd(), member.getName());
+        jdbc.update(sql, m.getEmail(), m.getPwd(), m.getName());
         return jdbc.queryForObject("SELECT seq_member.CURRVAL FORM dual", Long.class);  // Long 타입의 id를 반환
     }
 
     // 이메일로 회원 조회
-    public Member findByEmail(String email) {
+    public MemberRes findByEmail(String email) {
         @Language("SQL")
         String sql = "SELECT * FROM member WHERE email=?";
-        List<Member> list = jdbc.query(sql, new MemberRowMapper(), email);
+        List<MemberRes> list = jdbc.query(sql, new MemberRowMapper(), email);
         return list.isEmpty() ? null : list.get(0); // 조회 시 결과가 없는 경우 null을 넣기 위해서
     }
 
     // ID로 회원 조회
-    public Member findById(Long id) {
+    public MemberRes findById(Long id) {
         @Language("SQL")
         String sql = "SELECT * FROM member WHERE id=?";
-        List<Member> list = jdbc.query(sql, new MemberRowMapper(), id);
+        List<MemberRes> list = jdbc.query(sql, new MemberRowMapper(), id);
         return list.isEmpty() ? null : list.get(0); // 조회 시 결과가 없는 경우 null을 넣기 위해서
     }
 
     // 전체 회원 조회
-    public List<Member> findAll() {
+    public List<MemberRes> findAll() {
         @Language("SQL")
         String sql = "SELECT * from member ORDER BY id DESC";
         return jdbc.query(sql, new MemberRowMapper());
     }
 
     // Mapper 메서드  DB -> Member
-    static class MemberRowMapper implements RowMapper<Member> {
+    static class MemberRowMapper implements RowMapper<MemberRes> {
         @Override
-        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Member(
+        public MemberRes mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new MemberRes(
               rs.getLong("id"),
               rs.getString("email"),
               rs.getString("pwd"),
