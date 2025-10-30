@@ -22,7 +22,7 @@ public class CommentDao {
         @Language("SQL")
         String sql = "INSERT INTO comments (id, post_id, member_id, content) VALUES (seq_comments.NEXTVAL, ?, ?, ?)";
         jdbc.update(sql, c.getPostId(), c.getMemberId(), c.getContent());
-        return jdbc.queryForObject("SELECT seq_comment.CURRVAL FROM dual", Long.class);
+        return jdbc.queryForObject("SELECT seq_comments.CURRVAL FROM dual", Long.class);
     }
 
     // 댓글 가져오기 (게시글 ID를 통해서 가져 와야 함)
@@ -61,7 +61,7 @@ public class CommentDao {
               rs.getLong("member_id"),
               rs.getString("email"),
               rs.getString("content"),
-              rs.getTimestamp("create_at").toLocalDateTime()
+              rs.getTimestamp("created_at").toLocalDateTime()
             );
         }
     }
