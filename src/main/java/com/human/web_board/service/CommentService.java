@@ -8,7 +8,6 @@ import java.util.List;
 public interface CommentService {
     // 댓글 쓰기
     Long write(CommentCreateReq req);
-
     // 댓글 목록 조회
     List<CommentRes> list(Long postId);
     // 댓글 수정

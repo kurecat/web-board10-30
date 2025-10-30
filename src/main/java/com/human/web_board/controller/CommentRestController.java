@@ -34,9 +34,8 @@ public class CommentRestController {
     }
 
     // 댓글 삭제 : DELETE
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id) {
         return ResponseEntity.ok(commentService.delete(id));
     }
-
 }

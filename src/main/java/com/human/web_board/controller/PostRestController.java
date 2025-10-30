@@ -17,7 +17,7 @@ import java.util.List;
 public class PostRestController {
     private final PostService postService;
 
-    @PostMapping  // 게시글 등록
+    @PostMapping("/create")  // 게시글 등록
     public ResponseEntity<Long> create(@RequestBody PostCreateReq req) {
         return ResponseEntity.ok(postService.write(req));
     }
@@ -27,13 +27,18 @@ public class PostRestController {
         return ResponseEntity.ok(postService.list());
     }
 
-    @GetMapping("/{id}")  // 게시글 상세 조회 (ID)
+    @GetMapping("detail/{id}")  // 게시글 상세 조회 (ID)
     public ResponseEntity<PostRes> detail(@PathVariable Long id) {
         return ResponseEntity.ok(postService.get(id));
     }
 
-    @PutMapping("/{id}")  // 게시글 수정
+    @PutMapping("update/{id}")  // 게시글 수정
     public ResponseEntity<Boolean> update(@PathVariable Long id, @RequestBody PostCreateReq req) {
         return ResponseEntity.ok(postService.edit(req, id));
+    }
+
+    @DeleteMapping("/delete/{id}") // 게시글 삭제
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.delete(id));
     }
 }

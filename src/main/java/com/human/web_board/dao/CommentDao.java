@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.intellij.lang.annotations.Language;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class CommentDao {
     // 댓글 등록
     public Long save(CommentCreateReq c) {
         @Language("SQL")
-        String sql = "INSERT INTO comments (id, post_id, member_id, content) VALUES (seq_comments.NEXTVAL, ?, ?, ?)";
+        String sql = "INSERT INTO comments (post_id, member_id, content) VALUES (?, ?, ?)";
         jdbc.update(sql, c.getPostId(), c.getMemberId(), c.getContent());
         return jdbc.queryForObject("SELECT seq_comments.CURRVAL FROM dual", Long.class);
     }
@@ -29,12 +30,26 @@ public class CommentDao {
     public List<CommentRes> findByPostId(Long postId) {
         @Language("SQL")
         String sql = """
-            SELECT c.id, c.post_id, c.member_id, m.email, c.content, c.created_at 
+            SELECT c.id, c.post_id, c.member_id, m.email, c.content, c.create_at 
             FROM comments c JOIN member m ON c.member_id = m.id 
             WHERE c.post_id = ?
             ORDER BY c.id ASC
         """;
         return jdbc.query(sql, new CommentResMapper(), postId);
+    }
+
+    public CommentRes findById(Long id) {
+        @Language("SQL")
+        String sql = """
+            SELECT c.id, c.post_id, c.member_id, m.email, c.content, c.create_at 
+            FROM comments c JOIN member m ON c.member_id = m.id 
+            WHERE c.id = ?
+        """;
+        try {
+            return jdbc.queryForObject(sql, new CommentResMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     // 댓글 삭제
@@ -61,7 +76,7 @@ public class CommentDao {
               rs.getLong("member_id"),
               rs.getString("email"),
               rs.getString("content"),
-              rs.getTimestamp("created_at").toLocalDateTime()
+              rs.getTimestamp("create_at").toLocalDateTime()
             );
         }
     }

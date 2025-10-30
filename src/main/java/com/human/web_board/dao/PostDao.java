@@ -29,7 +29,7 @@ public class PostDao {
     public List<PostRes> findAll() {
         @Language("SQL")
         String sql = """
-                SELECT p.id, p.member_id, m.email, p.title, p.content, p.created_at
+                SELECT p.id, p.member_id, m.email, p.title, p.content, p.create_at
                 FROM post p JOIN member m ON p.member_id = m.id
                 ORDER BY p.id DESC
                 """;
@@ -40,7 +40,7 @@ public class PostDao {
     public PostRes findById(Long id) {
         @Language("SQL")
         String sql = """
-                SELECT p.id, p.member_id, m.email, p.title, p.content, p.created_at
+                SELECT p.id, p.member_id, m.email, p.title, p.content, p.create_at
                 FROM post p JOIN member m ON p.member_id = m.id
                 WHERE p.id =?
                 """;
@@ -72,7 +72,7 @@ public class PostDao {
                     rs.getString("email"),
                     rs.getString("title"),
                     rs.getString("content"),
-                    rs.getTimestamp("created_at").toLocalDateTime()
+                    rs.getTimestamp("create_at").toLocalDateTime()
             );
         }
     }
